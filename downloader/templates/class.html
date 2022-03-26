@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block breadcrumbs %}
+    / <a href="{% url 'downloader:major' major.slug %}">{{ major }} /</a>
+{% endblock %}
+
+{% block content %}
+    <h1>{{ class_name }}</h1>
+    <ul>
+        {% for file in files %}
+            <li>
+                <a href="{% static file.url %}">
+                    {% include 'icons/file.svg' %}
+                    {{ file.name }}
+                </a>
+                <a href="{% static file.url %}" download>
+                    {% include 'icons/download.svg' %}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

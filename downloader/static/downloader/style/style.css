@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+:root {
+    --list-separator: 1px solid #555;
+
+    box-sizing: border-box;
+    font-family: 'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+}
+
+body {
+    margin: 2rem auto 0;
+    max-width: 800px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.breadcrumbs {
+    margin: 0.5em 0;
+    color: #555;
+}
+
+h1 {
+    margin: 0 0 1em 0;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    list-style: none;
+    border-top: var(--list-separator);
+    display: flex;
+}
+
+li:last-of-type {
+    border-bottom: var(--list-separator);
+}
+
+li > a {
+    display: flex;
+    align-items: center;
+    padding: 1em;
+    flex: 1;
+}
+
+li > a > svg {
+    font-size: 2em;
+}
+
+li > a:not([download]) > svg {
+    margin-right: 0.5em;
+}
+
+li > a[download] {
+    flex: 0;
+    position: relative;
+}
+
+li > a[download]:hover::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    content: "";
+    width: 80%;
+    height: 80%;
+    background: #000;
+    border-radius: 0.5em;
+}
+
+li > a[download]:hover > svg {
+    filter: invert();
+}
+
+.class-name {
+    flex: 1;
+}
+
+.element-count {
+    font-size: 0.9em;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    body {
+        color: #fff;
+        background: #333;
+    }
+
+    svg {
+        color: #fff;
+    }
+
+    li > a[download]:hover::before {
+        background: #fff;
+    }
+}

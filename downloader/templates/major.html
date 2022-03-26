@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block breadcrumbs %}
+    /
+{% endblock %}
+
+{% block content %}
+    <h1>{{ major.name }}</h1>
+    <ul>
+        {% for class in major.classes %}
+            <li>
+                <a href="{% url 'downloader:class' major.slug class.slug %}">
+                    {% include 'icons/folder.svg' %}
+                    <span class="class-name">{{ class }}</span>
+                    <span class="element-count">
+                        ({{ class.element_count }} Element{% if class.element_count != 1 %}e{% endif %})
+                    </span>
+                </a>
+                <a href="{% url 'downloader:download' major.slug class.slug %}" download>
+                    {% include 'icons/download.svg' %}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
