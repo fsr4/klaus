@@ -8,9 +8,14 @@
     <link rel="stylesheet" href="{% static 'downloader/style/style.css' %}">
 </head>
 <body>
-<p class="breadcrumbs">
-    {% block breadcrumbs %}{% endblock %}
-</p>
+<header>
+    <p class="breadcrumbs">
+        {% block breadcrumbs %}{% endblock %}
+    </p>
+</header>
 {% block content %}{% endblock %}
+<footer>
+    <a href="/oidc/total_logout?next=/&fail=/fail">Log out</a>
+</footer>
 </body>
 </html>

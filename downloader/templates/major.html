@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block breadcrumbs %}
-    /
+    <a href="{% url 'downloader:all' %}">/</a>
+    <a href="{% url 'downloader:major' major.slug %}">{{ major }} /</a>
 {% endblock %}
 
 {% block content %}
@@ -17,7 +17,7 @@
                         ({{ class.element_count }} Element{% if class.element_count != 1 %}e{% endif %})
                     </span>
                 </a>
-                <a href="{% url 'downloader:download' major.slug class.slug %}" download>
+                <a href="{% url 'downloader:download_class' major.slug class.slug %}" download>
                     {% include 'icons/download.svg' %}
                 </a>
             </li>

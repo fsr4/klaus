@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
+from oauth2_authcodeflow.conf import constants
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -34,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'oauth2_provider',
+    'oauth2_authcodeflow',
     'filecollection.apps.FileCollectionConfig',
     'downloader.apps.DownloaderConfig',
 ]
@@ -68,6 +70,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'examcollection.wsgi.application'
+
+AUTHENTICATION_BACKENDS = [
+    'oauth2_authcodeflow.auth.AuthenticationBackend',
+]
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -123,3 +129,21 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# OIDC settings
+def extend_user(user, claims):
+    major = claims['major']
+    if major is None:
+        return
+    user.major = major.lower()
+
+
+OIDC_OP_DISCOVERY_DOCUMENT_URL = 'http://localhost:9999/.well-known/openid-configuration'
+OIDC_RP_CLIENT_ID = 'examcollection'
+OIDC_RP_CLIENT_SECRET = '12345'
+OIDC_RP_SCOPES = ['openid', 'email', 'major']
+OIDC_EXTEND_USER = extend_user
+
+LOGIN_URL = '/oidc/authenticate?fail=http://localhost:8000/fail'
+AUTH_USER_MODEL = 'downloader.User'
