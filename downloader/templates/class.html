@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block breadcrumbs %}
-    / <a href="{% url 'downloader:major' major.slug %}">{{ major }} /</a>
+    <a href="{% url 'downloader:all' %}">/</a>
+    <a href="{% url 'downloader:major' major.slug %}">{{ major }} /</a>
+    <a href="{% url 'downloader:class' major.slug class_slug %}">{{ class_name }} /</a>
 {% endblock %}
 
 {% block content %}
@@ -10,11 +11,11 @@
     <ul>
         {% for file in files %}
             <li>
-                <a href="{% static file.url %}">
+                <a href="{% url 'downloader:download_file' major_slug class_slug file.name %}">
                     {% include 'icons/file.svg' %}
                     {{ file.name }}
                 </a>
-                <a href="{% static file.url %}" download>
+                <a href="{% url 'downloader:download_file' major_slug class_slug file.name %}" download>
                     {% include 'icons/download.svg' %}
                 </a>
             </li>

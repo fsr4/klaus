@@ -16,5 +16,8 @@ Including another URLconf
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('downloader.urls'))
+    path('', include('downloader.urls')),
+    path('oidc/', include('oauth2_authcodeflow.urls')),
 ]
+
+handler403 = 'downloader.views.forbidden_handler'

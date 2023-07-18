@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from oauth2_authcodeflow.conf import constants
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'oauth2_provider',
+    'oauth2_authcodeflow',
     'filecollection.apps.FileCollectionConfig',
     'downloader.apps.DownloaderConfig',
 ]
@@ -69,10 +72,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'examcollection.wsgi.application'
 
+AUTHENTICATION_BACKENDS = [
+    'oauth2_authcodeflow.auth.AuthenticationBackend',
+]
+
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-import os
 
 DATABASES = {
     'default': {
@@ -123,3 +128,21 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# OIDC settings
+def extend_user(user, claims):
+    major = claims['major']
+    if major is None:
+        return
+    user.major = major.lower()
+
+
+OIDC_OP_DISCOVERY_DOCUMENT_URL = os.environ['OIDC_OP_DISCOVERY_DOCUMENT_URL']
+OIDC_RP_CLIENT_ID = os.environ['OIDC_RP_CLIENT_ID']
+OIDC_RP_CLIENT_SECRET = os.environ['OIDC_RP_CLIENT_SECRET']
+OIDC_RP_SCOPES = ['openid', 'email', 'major']
+OIDC_EXTEND_USER = extend_user
+
+LOGIN_URL = os.environ['OIDC_LOGIN_PATH']
+AUTH_USER_MODEL = 'downloader.User'

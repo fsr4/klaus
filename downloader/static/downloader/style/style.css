@@ -12,6 +12,13 @@ body {
     max-width: 800px;
 }
 
+footer {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-block: 1.5em;
+    font-size: 0.8em;
+}
+
 a {
     text-decoration: none;
     color: inherit;

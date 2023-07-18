@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block breadcrumbs %}
+    <a href="{% url 'downloader:all' %}">/</a>
+{% endblock %}
+
+{% block content %}
+    <h1>Majors</h1>
+    <ul>
+        {% for major in majors %}
+            <li>
+                <a href="{% url 'downloader:major' major.slug %}">
+                    {% include 'icons/folder.svg' %}
+                    <span class="class-name">{{ major }}</span>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
