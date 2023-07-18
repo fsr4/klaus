@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 from oauth2_authcodeflow.conf import constants
@@ -78,8 +79,6 @@ AUTHENTICATION_BACKENDS = [
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-import os
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -139,11 +138,11 @@ def extend_user(user, claims):
     user.major = major.lower()
 
 
-OIDC_OP_DISCOVERY_DOCUMENT_URL = 'http://localhost:9999/.well-known/openid-configuration'
-OIDC_RP_CLIENT_ID = 'examcollection'
-OIDC_RP_CLIENT_SECRET = '12345'
+OIDC_OP_DISCOVERY_DOCUMENT_URL = os.environ['OIDC_OP_DISCOVERY_DOCUMENT_URL']
+OIDC_RP_CLIENT_ID = os.environ['OIDC_RP_CLIENT_ID']
+OIDC_RP_CLIENT_SECRET = os.environ['OIDC_RP_CLIENT_SECRET']
 OIDC_RP_SCOPES = ['openid', 'email', 'major']
 OIDC_EXTEND_USER = extend_user
 
-LOGIN_URL = '/oidc/authenticate?fail=http://localhost:8000/fail'
+LOGIN_URL = os.environ['OIDC_LOGIN_PATH']
 AUTH_USER_MODEL = 'downloader.User'
